@@ -1,6 +1,9 @@
 package org.example.home.controllers;
 
 import org.example.home.models.Customer;
+import org.springframework.http.HttpStatus;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,14 +20,16 @@ public class MainController {
         customers.add(new Customer(3,"Piter"));
     }
 
-    @GetMapping({"/hello","/"})
-    public List<Customer> hello() {
-        return customers;
+    @GetMapping({"/customers"})
+    public ResponseEntity<List<Customer>> getCustomers() {
+        return new ResponseEntity<>(this.customers, HttpStatus.OK);
     }
+}
 
 //    @GetMapping({"/hello","/"})
 //    public String hello() {
-//        return "Hello Andrew;";
+//          return "Hello Andrew;"
 //    }
+//
 
-}
+
