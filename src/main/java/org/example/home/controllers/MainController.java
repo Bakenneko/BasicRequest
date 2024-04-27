@@ -55,16 +55,16 @@ public class MainController {
         return new ResponseEntity(HttpStatusCode.valueOf(201));
     }
 
-    @PatchMapping("/customers/{id}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateCustomer(@PathVariable int id, @RequestBody Customer customer) {
-        for (Customer item : customers) {
-            if (item.getId() == id) {
-                item.setId(customer.getId());
-                item.setName(customer.getName());
+        @PatchMapping("/customers/{id}")
+        @ResponseStatus(HttpStatus.ACCEPTED)
+        public void updateCustomer(@PathVariable int id, @RequestBody Customer customer) {
+            for (Customer item : customers) {
+                if (item.getId() == id) {
+                    item.setId(customer.getId());
+                    item.setName(customer.getName());
+                }
             }
         }
-    }
 }
 
 
