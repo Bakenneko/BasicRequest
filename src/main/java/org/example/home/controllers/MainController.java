@@ -1,11 +1,9 @@
 package org.example.home.controllers;
-
 import org.example.home.models.Customer;
 import org.springframework.http.HttpStatus;
-
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +19,7 @@ public class MainController {
 
     @GetMapping({"/customers"})
     public ResponseEntity<List<Customer>> getCustomers() {
-        return new ResponseEntity<>(
-                this.customers, HttpStatus.OK);
+        return new ResponseEntity<>(this.customers, HttpStatus.OK);
     }
 
     @PostMapping("/customers")
@@ -39,10 +36,34 @@ public class MainController {
         Customer customer = this.customers.get(id-1);
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
+
     @DeleteMapping("/customers/{id}")
     public ResponseEntity<List<Customer>> deleteCustomer(@PathVariable int id) {
         this.customers.remove(id-1);
         return new ResponseEntity<>(this.customers, HttpStatus.valueOf(200));
+    }
+
+    @PutMapping("/customers/{id}")
+    public ResponseEntity replaceCustomer(@PathVariable int id, @RequestBody Customer customer) {
+        Customer custo = customers.stream()
+                .filter(customer1 -> customer1.getId() == id)
+                .findFirst()
+                .get();
+                System.out.println(custo);
+        int indexOf = customers.indexOf(custo);
+        customers.set(indexOf,customer);
+        return new ResponseEntity(HttpStatusCode.valueOf(201));
+    }
+
+    @PatchMapping("/customers/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateCustomer(@PathVariable int id, @RequestBody Customer customer) {
+        for (Customer item : customers) {
+            if (item.getId() == id) {
+                item.setId(customer.getId());
+                item.setName(customer.getName());
+            }
+        }
     }
 }
 
