@@ -105,4 +105,10 @@ public class MainController {
     public void saveCustomer(@RequestBody Customer customer) {
         customerDAO.save(customer);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Customer> getOneCustomer(@PathVariable int id) {
+        Customer customer = customerDAO.findById(id).get();
+        return new ResponseEntity<>(customer, HttpStatusCode.valueOf(200));
+    }
 }
