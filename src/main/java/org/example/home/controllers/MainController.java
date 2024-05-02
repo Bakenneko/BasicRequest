@@ -134,6 +134,10 @@ public class MainController {
 
     @GetMapping("/name/{name}")
     public ResponseEntity <List<Customer>> getCustomerByName(@PathVariable String name) {
-        return new ResponseEntity<>(customerDAO.getByName("Igor"), HttpStatusCode.valueOf(200));
+//        return new ResponseEntity<>(customerDAO.getByName("Igor"), HttpStatusCode.valueOf(200));
+//        return new ResponseEntity<>(customerDAO.findCustomerByName("Igor"), HttpStatusCode.valueOf(200));
+//        return new ResponseEntity<>(services.customerListByName("Igor"), HttpStatusCode.valueOf(200));
+
+        return services.customerListByName(name);
     }
 }
