@@ -82,6 +82,7 @@ import lombok.AllArgsConstructor;
 import org.example.home.dao.CustomerDAO;
 import org.example.home.models.Customer;
 import org.example.home.dto.CustomerDTO;
+import org.example.home.services.Services;
 import org.example.home.views.Views;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -97,6 +98,8 @@ public class MainController {
 
     private CustomerDAO customerDAO;
 
+    private Services services;
+
     @GetMapping("")
     @JsonView(Views.Client.class)
     public ResponseEntity <List<Customer>> getCustomers() {
@@ -107,7 +110,7 @@ public class MainController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public void saveCustomer(@RequestBody Customer customer) {
-        customerDAO.save(customer);
+        services.save(customer);
     }
 
     @GetMapping("/{id}")
@@ -127,5 +130,10 @@ public class MainController {
         Customer customer = customerDAO.findById(id).get();
         customer.setName(customerDTO.getUsername());
         customerDAO.save(customer);
+    }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity <List<Customer>> getCustomerByName(@PathVariable String name) {
+        return new ResponseEntity<>(customerDAO.getByName("Igor"), HttpStatusCode.valueOf(200));
     }
 }
