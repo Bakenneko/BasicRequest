@@ -77,10 +77,12 @@ package org.example.home.controllers;//package org.example.home.controllers;
 //    }
 //
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import org.example.home.dao.CustomerDAO;
 import org.example.home.models.Customer;
 import org.example.home.dto.CustomerDTO;
+import org.example.home.views.Views;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -96,6 +98,7 @@ public class MainController {
     private CustomerDAO customerDAO;
 
     @GetMapping("")
+    @JsonView(Views.Client.class)
     public ResponseEntity <List<Customer>> getCustomers() {
        List<Customer> all = customerDAO.findAll();
        return new ResponseEntity<>(all, HttpStatusCode.valueOf(200));
@@ -108,6 +111,7 @@ public class MainController {
     }
 
     @GetMapping("/{id}")
+    @JsonView(Views.Admin.class)
     public ResponseEntity<Customer> getOneCustomer(@PathVariable int id) {
         Customer customer = customerDAO.findById(id).get();
         return new ResponseEntity<>(customer, HttpStatusCode.valueOf(200));

@@ -1,4 +1,4 @@
-package org.example.home.models;
+package org.example.home.errorController;
 
 
 import lombok.AllArgsConstructor;
