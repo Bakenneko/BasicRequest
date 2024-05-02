@@ -80,6 +80,7 @@ package org.example.home.controllers;//package org.example.home.controllers;
 import lombok.AllArgsConstructor;
 import org.example.home.dao.CustomerDAO;
 import org.example.home.models.Customer;
+import org.example.home.dto.CustomerDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -110,5 +111,17 @@ public class MainController {
     public ResponseEntity<Customer> getOneCustomer(@PathVariable int id) {
         Customer customer = customerDAO.findById(id).get();
         return new ResponseEntity<>(customer, HttpStatusCode.valueOf(200));
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteCustomer(@PathVariable int id) {
+        customerDAO.deleteById(id);
+    }
+
+    @PatchMapping("/{id}")
+    public void updateCustomer(@PathVariable int id, @RequestBody CustomerDTO customerDTO) {
+        Customer customer = customerDAO.findById(id).get();
+        customer.setName(customerDTO.getUsername());
+        customerDAO.save(customer);
     }
 }
